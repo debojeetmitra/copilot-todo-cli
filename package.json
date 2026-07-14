@@ -1,0 +1,9 @@
+{
+  "name": "copilot-todo-cli",
+  "version": "1.0.0",
+  "description": "A simple beginner-friendly Node.js todo CLI app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
