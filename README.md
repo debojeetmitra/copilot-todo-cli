@@ -7,6 +7,7 @@ A simple command-line Todo List application built with **Node.js** using **GitHu
 - ➕ Add new tasks
 - 📋 View all tasks
 - ❌ Delete tasks
+- ✅ Mark tasks as completed
 - 🚪 Exit the application
 - 🧠 Built with the help of GitHub Copilot
 
@@ -47,7 +48,8 @@ Example menu:
 1. Add Task
 2. View Tasks
 3. Delete Task
-4. Exit
+4. Mark Task as Completed
+5. Exit
 
 Choose an option:
 ```
