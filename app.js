@@ -7,7 +7,8 @@ function showMenu() {
   console.log('1. Add task');
   console.log('2. View tasks');
   console.log('3. Delete task');
-  console.log('4. Exit');
+  console.log('4. Mark task as completed');
+  console.log('5. Exit');
 }
 
 // Ask the user a question and return the answer.
@@ -27,7 +28,7 @@ async function addTask(tasks, rl) {
     return;
   }
 
-  tasks.push(trimmedTask);
+  tasks.push({ text: trimmedTask, completed: false });
   console.log(`Added: ${trimmedTask}`);
 }
 
@@ -40,7 +41,8 @@ function viewTasks(tasks) {
 
   console.log('\nYour tasks:');
   tasks.forEach((task, index) => {
-    console.log(`${index + 1}. ${task}`);
+    const checkmark = task.completed ? '✓ ' : '';
+    console.log(`${index + 1}. ${checkmark}${task.text}`);
   });
 }
 
@@ -57,10 +59,37 @@ async function deleteTask(tasks, rl) {
 
   if (Number.isInteger(index) && index >= 0 && index < tasks.length) {
     const removedTask = tasks.splice(index, 1)[0];
-    console.log(`Deleted: ${removedTask}`);
+    console.log(`Deleted: ${removedTask.text}`);
   } else {
     console.log('Invalid task number.');
   }
+}
+
+// Mark a task as completed using its number.
+async function markTaskCompleted(tasks, rl) {
+  if (tasks.length === 0) {
+    console.log('No tasks to complete.');
+    return;
+  }
+
+  viewTasks(tasks);
+  const choice = await askQuestion(rl, 'Enter the task number to mark as completed: ');
+  const index = Number.parseInt(choice, 10) - 1;
+
+  if (!Number.isInteger(index) || index < 0 || index >= tasks.length) {
+    console.log('Invalid task number.');
+    return;
+  }
+
+  const task = tasks[index];
+
+  if (task.completed) {
+    console.log('This task is already completed.');
+    return;
+  }
+
+  task.completed = true;
+  console.log(`Completed: ${task.text}`);
 }
 
 // Run the main loop of the program until the user exits.
@@ -88,6 +117,9 @@ async function main() {
         await deleteTask(tasks, rl);
         break;
       case '4':
+        await markTaskCompleted(tasks, rl);
+        break;
+      case '5':
         console.log('Goodbye!');
         running = false;
         break;
